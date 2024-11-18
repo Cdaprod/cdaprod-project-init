@@ -7,8 +7,9 @@ on:
         type: string
         default: 'templates/labels.json'
     secrets:
-      GITHUB_TOKEN:
+      token:  # Changed from GITHUB_TOKEN to avoid collision
         required: true
+        description: "GitHub token with repository permissions"
 
 jobs:
   create-labels:

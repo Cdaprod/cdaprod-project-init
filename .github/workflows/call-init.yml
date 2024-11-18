@@ -1,4 +1,4 @@
-name: Initialize Repository
+name: Initialize Repository with Labels and Milestones
 on:
   workflow_dispatch:
   repository_dispatch:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Initialize Repository
+      - name: Initialize Repository with Labels and Milestones
         uses: cdaprod/cdaprod-project-init@v1
         with:
           labels-config: 'templates/labels.json'
