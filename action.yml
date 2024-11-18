@@ -14,18 +14,42 @@ inputs:
     description: 'Path to milestones configuration file'
     required: false
     default: 'templates/milestones.json'
+  token:
+    description: 'GitHub token with repository permissions'
+    required: true
 
 runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
     
-    - name: Initialize Labels
-      uses: ./.github/workflows/reusable-labels.yml
-      with:
-        config-path: ${{ inputs.labels-config }}
-      
-    - name: Initialize Milestones
-      uses: ./.github/workflows/reusable-milestones.yml
-      with:
-        config-path: ${{ inputs.milestones-config }}
+    - name: Create Labels
+      shell: bash
+      run: |
+        labels=$(cat ${{ inputs.labels-config }})
+        for label in $(echo "$labels" | jq -c '.[]'); do
+          name=$(echo $label | jq -r '.name')
+          color=$(echo $label | jq -r '.color')
+          description=$(echo $label | jq -r '.description')
+          
+          curl -X POST \
+            -H "Authorization: token ${{ inputs.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/labels" \
+            -d "{\"name\":\"$name\",\"color\":\"$color\",\"description\":\"$description\"}" || true
+        done
+
+    - name: Create Milestones
+      shell: bash
+      run: |
+        milestones=$(cat ${{ inputs.milestones-config }})
+        for milestone in $(echo "$milestones" | jq -c '.[]'); do
+          title=$(echo $milestone | jq -r '.title')
+          description=$(echo $milestone | jq -r '.description')
+          
+          curl -X POST \
+            -H "Authorization: token ${{ inputs.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/milestones" \
+            -d "{\"title\":\"$title\",\"description\":\"$description\",\"state\":\"open\"}" || true
+        done
