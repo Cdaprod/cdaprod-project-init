@@ -1,8 +1,14 @@
 name: 'Cdaprod Project Initialization'
-description: 'Initialize repository with standard labels and milestones'
+description: 'Initialize GitHub repositories with standardized labels and milestones 🏷️'
 author: 'Cdaprod'
+branding:
+  icon: 'package'  # Choose from: https://feathericons.com/
+  color: 'blue'    # Options: white, yellow, blue, green, orange, red, purple, gray-dark
 
 inputs:
+  token:
+    description: 'GitHub token with repository permissions'
+    required: true
   labels-config:
     description: 'Path to labels configuration file'
     required: false
@@ -11,9 +17,11 @@ inputs:
     description: 'Path to milestones configuration file'
     required: false
     default: 'templates/milestones.json'
-  token:
-    description: 'GitHub token'
-    required: true
+  skip-existing:
+    description: 'Skip creation if label/milestone already exists'
+    required: false
+    default: 'true'
+
 
 runs:
   using: "composite"
@@ -43,7 +51,7 @@ runs:
         while IFS= read -r label; do
           name=$(echo "$label" | jq -r '.name')
           color=$(echo "$label" | jq -r '.color')
-          description=$(echo "$label" | jq -r '.description')  # Fixed the quote here
+          description=$(echo "$label" | jq -r '.description')
           
           echo "Creating label: $name"
           curl -X POST \

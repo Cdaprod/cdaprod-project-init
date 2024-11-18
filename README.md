@@ -1,5 +1,7 @@
 # 📦 Cdaprod Project Initialization
 
+[![Self Initialize Using Our Action](https://github.com/Cdaprod/cdaprod-project-init/actions/workflows/self-init.yml/badge.svg)](https://github.com/Cdaprod/cdaprod-project-init/actions/workflows/self-init.yml)
+
 Automate the setup of GitHub repositories with standardized labels and milestones.
 
 ## Structure
@@ -112,6 +114,59 @@ Create a `milestones.json` file:
 ]
 ```
 
+## Usage
+
+This action can be used to initialize any GitHub repository with standardized labels and milestones.
+
+### Basic Usage
+
+```yaml
+- uses: Cdaprod/cdaprod-project-init@v1
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+### Custom Configuration
+
+1. Create your own configuration files:
+```json
+// labels.json
+[
+  {
+    "name": "priority/high",
+    "color": "b60205",
+    "description": "🚨 Urgent attention needed"
+  }
+]
+```
+
+2. Use custom configs in the workflow:
+```yaml
+- uses: Cdaprod/cdaprod-project-init@v1
+  with:
+    token: ${{ secrets.GITHUB_TOKEN }}
+    labels-config: '.github/labels.json'
+    milestones-config: '.github/milestones.json'
+```
+
+### Permissions
+
+Make sure your workflow has the necessary permissions:
+```yaml
+permissions:
+  issues: write    # For labels and milestones
+  contents: write  # For repository operations
+```
+
+### Inputs
+
+| Input | Description | Required | Default |
+|-------|-------------|----------|---------|
+| `token` | GitHub token | Yes | N/A |
+| `labels-config` | Path to labels JSON | No | templates/labels.json |
+| `milestones-config` | Path to milestones JSON | No | templates/milestones.json |
+| `skip-existing` | Skip existing items | No | true |
+
 ## Running the Action
 
 1. Go to your repository's "Actions" tab
@@ -125,10 +180,43 @@ Create a `milestones.json` file:
 - Verify the workflow has proper permissions (Settings > Actions > General > Workflow permissions)
 - Check that `GITHUB_TOKEN` has sufficient permissions
 
-## License
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 👥 Connect with Cdaprod
+
+<div align="center">
+  <p>
+    <a href="https://youtube.com/@Cdaprod">
+      <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube Channel" />
+    </a>
+    <a href="https://twitter.com/cdasmktcda">
+      <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter Follow" />
+    </a>
+    <a href="https://www.linkedin.com/in/cdasmkt">
+      <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+    </a>
+    <a href="https://github.com/Cdaprod">
+      <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub followers" />
+    </a>
+    <a href="https://sanity.cdaprod.dev">
+      <img src="https://img.shields.io/badge/Blog-FF5722?style=for-the-badge&logo=blogger&logoColor=white" alt="Personal Blog" />
+    </a>
+  </p>
+</div>
+
+## 📜 License
 
 MIT
 
-## Author
+---
 
-Cdaprod
+<div align="center">
+  <p>Built with ❤️ by <a href="https://github.com/Cdaprod">Cdaprod</a></p>
+  <p><em>Making Enterprise Software Awesome!</em></p>
+</div>

@@ -1,0 +1,29 @@
+name: Test Action
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Test Action
+        uses: ./
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Verify Labels
+        run: |
+          labels=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/labels")
+          echo "Created labels: $labels"
+          
+      - name: Verify Milestones
+        run: |
+          milestones=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/milestones")
+          echo "Created milestones: $milestones"
