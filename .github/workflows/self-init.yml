@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Run Our Own Action
-        uses: Cdaprod/cdaprod/project-init@main  # Using @main since we're testing in our own repo
+        uses: Cdaprod/cdaprod-project-init@main  # Using @main since we're testing in our own repo
         with:
           labels-config: 'templates/labels.json'
           milestones-config: 'templates/milestones.json'
