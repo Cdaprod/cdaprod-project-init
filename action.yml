@@ -1,9 +1,6 @@
 name: 'Cdaprod Project Initialization'
 description: 'Initialize repository with standard labels and milestones'
 author: 'Cdaprod'
-branding:
-  icon: 'package'
-  color: 'blue'
 
 inputs:
   labels-config:
@@ -15,41 +12,67 @@ inputs:
     required: false
     default: 'templates/milestones.json'
   token:
-    description: 'GitHub token with repository permissions'
+    description: 'GitHub token'
     required: true
 
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-    
+    - name: Debug Environment
+      shell: bash
+      run: |
+        echo "Current directory: $(pwd)"
+        echo "Directory contents:"
+        ls -la
+        echo "Templates directory:"
+        ls -la templates/ || echo "No templates directory found"
+        echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+
     - name: Create Labels
       shell: bash
       run: |
-        labels=$(cat ${{ inputs.labels-config }})
-        for label in $(echo "$labels" | jq -c '.[]'); do
-          name=$(echo $label | jq -r '.name')
-          color=$(echo $label | jq -r '.color')
-          description=$(echo $label | jq -r '.description')
+        if [ ! -f "${{ inputs.labels-config }}" ]; then
+          echo "Error: Labels config file not found at ${{ inputs.labels-config }}"
+          exit 1
+        fi
+        
+        echo "Reading labels from ${{ inputs.labels-config }}"
+        cat "${{ inputs.labels-config }}"
+        
+        echo "Creating labels..."
+        while IFS= read -r label; do
+          name=$(echo "$label" | jq -r '.name')
+          color=$(echo "$label" | jq -r '.color')
+          description=$(echo "$label" | jq -r '.description')
           
+          echo "Creating label: $name"
           curl -X POST \
             -H "Authorization: token ${{ inputs.token }}" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/labels" \
             -d "{\"name\":\"$name\",\"color\":\"$color\",\"description\":\"$description\"}" || true
-        done
+        done < <(jq -c '.[]' "${{ inputs.labels-config }}")
 
     - name: Create Milestones
       shell: bash
       run: |
-        milestones=$(cat ${{ inputs.milestones-config }})
-        for milestone in $(echo "$milestones" | jq -c '.[]'); do
-          title=$(echo $milestone | jq -r '.title')
-          description=$(echo $milestone | jq -r '.description')
+        if [ ! -f "${{ inputs.milestones-config }}" ]; then
+          echo "Error: Milestones config file not found at ${{ inputs.milestones-config }}"
+          exit 1
+        }
+        
+        echo "Reading milestones from ${{ inputs.milestones-config }}"
+        cat "${{ inputs.milestones-config }}"
+        
+        echo "Creating milestones..."
+        while IFS= read -r milestone; do
+          title=$(echo "$milestone" | jq -r '.title')
+          description=$(echo "$milestone" | jq -r '.description')
           
+          echo "Creating milestone: $title"
           curl -X POST \
             -H "Authorization: token ${{ inputs.token }}" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/milestones" \
             -d "{\"title\":\"$title\",\"description\":\"$description\",\"state\":\"open\"}" || true
-        done
+        done < <(jq -c '.[]' "${{ inputs.milestones-config }}")

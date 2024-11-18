@@ -1,13 +1,16 @@
-# Cdaprod Workflow - Self Initialization
 name: Self Initialize Using Our Action
 
 on:
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
-      - 'templates/**'  # Run when templates are updated
+      - 'templates/**'
+
+env:
+  ACTIONS_RUNNER_DEBUG: true
+  ACTIONS_STEP_DEBUG: true
 
 jobs:
   init-self:
@@ -17,12 +20,20 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       
+      - name: Debug File Structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+          echo "GitHub workspace: $GITHUB_WORKSPACE"
+          echo "Action path: ${{ github.action_path }}"
+          
       - name: Run Our Own Action
         uses: ./
-        # uses: Cdaprod/cdaprod-project-init@main  # Using @main since we're testing in our own repo
         with:
-          labels-config: 'templates/labels.json'
-          milestones-config: 'templates/milestones.json'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          labels-config: '${{ github.workspace }}/templates/labels.json'
+          milestones-config: '${{ github.workspace }}/templates/milestones.json'
+          token: ${{ secrets.GITHUB_TOKEN }}
