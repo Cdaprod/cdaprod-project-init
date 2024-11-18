@@ -1,0 +1,27 @@
+# Cdaprod Workflow - Self Initialization
+name: Self Initialize Using Our Action
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+  push:
+    branches:
+      - main
+    paths:
+      - 'templates/**'  # Run when templates are updated
+
+jobs:
+  init-self:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Our Own Action
+        uses: Cdaprod/cdaprod/project-init@main  # Using @main since we're testing in our own repo
+        with:
+          labels-config: 'templates/labels.json'
+          milestones-config: 'templates/milestones.json'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

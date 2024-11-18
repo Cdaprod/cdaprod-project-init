@@ -1,0 +1,57 @@
+[
+  {
+    "name": "roadmap",
+    "color": "0366d6",
+    "description": "🗺️ Strategic planning and development direction"
+  },
+  {
+    "name": "core",
+    "color": "5319e7",
+    "description": "⚙️ Core functionality changes"
+  },
+  {
+    "name": "high-priority",
+    "color": "b60205",
+    "description": "🚨 Urgent attention needed"
+  },
+  {
+    "name": "infrastructure",
+    "color": "6f42c1",
+    "description": "🏗️ Infrastructure and architecture"
+  },
+  {
+    "name": "ci/cd",
+    "color": "fbca04",
+    "description": "🔄 CI/CD pipeline related"
+  },
+  {
+    "name": "testing",
+    "color": "0e8a16",
+    "description": "🧪 Testing and test coverage"
+  },
+  {
+    "name": "tech-debt",
+    "color": "ff9900",
+    "description": "🏦 Technical debt items"
+  },
+  {
+    "name": "needs-review",
+    "color": "5319e7",
+    "description": "👀 Ready for team review"
+  },
+  {
+    "name": "tui",
+    "color": "1d76db",
+    "description": "🖥️ Terminal UI related"
+  },
+  {
+    "name": "cli",
+    "color": "3e4b9e",
+    "description": "⌨️ Command line interface work"
+  },
+  {
+    "name": "docker",
+    "color": "0db7ed",
+    "description": "🐳 Container related features"
+  }
+]

@@ -1,0 +1,31 @@
+name: 'Cdaprod Project Initialization'
+description: 'Initialize repository with standard labels and milestones'
+author: 'Cdaprod'
+branding:
+  icon: 'package'
+  color: 'blue'
+
+inputs:
+  labels-config:
+    description: 'Path to labels configuration file'
+    required: false
+    default: 'templates/labels.json'
+  milestones-config:
+    description: 'Path to milestones configuration file'
+    required: false
+    default: 'templates/milestones.json'
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    
+    - name: Initialize Labels
+      uses: ./.github/workflows/reusable-labels.yml
+      with:
+        config-path: ${{ inputs.labels-config }}
+      
+    - name: Initialize Milestones
+      uses: ./.github/workflows/reusable-milestones.yml
+      with:
+        config-path: ${{ inputs.milestones-config }}

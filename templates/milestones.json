@@ -1,0 +1,42 @@
+[
+  {
+    "title": "🛠️ Project Initialization",
+    "state": "open",
+    "description": "Foundation layer - Initializing the project."
+  },
+  {
+    "title": "🧪 Planning and Setup",
+    "state": "open",
+    "description": "Initial stage focused on defining project scope, requirements, and setting up basic project infrastructure."
+  },
+  {
+    "title": "🧬 Feature Development",
+    "state": "open",
+    "description": "Stage for building and implementing core project features and functionality."
+  },
+  {
+    "title": "🎯 Prototype and Validation",
+    "state": "open",
+    "description": "Creating a prototype for validation, testing the feasibility, and refining key project aspects."
+  },
+  {
+    "title": "🛠️ Refinement and Optimization",
+    "state": "open",
+    "description": "Focusing on refining features and optimizing performance before staging."
+  },
+  {
+    "title": "🧪 Staging and Testing",
+    "state": "open",
+    "description": "Setting up the staging environment for final tests and quality assurance before release."
+  },
+  {
+    "title": "🎉 Public Release",
+    "state": "open",
+    "description": "Launching the project to the public and ensuring stable deployment."
+  },
+  {
+    "title": "🎯 Post-Release and Maintenance",
+    "state": "open",
+    "description": "Ongoing maintenance, bug fixes, and feature improvements after public release."
+  }
+]

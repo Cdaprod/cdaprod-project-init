@@ -1,0 +1,22 @@
+name: Initialize Repository
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [initialize-repository]
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Initialize Repository
+        uses: cdaprod/cdaprod-project-init@v1
+        with:
+          labels-config: 'templates/labels.json'
+          milestones-config: 'templates/milestones.json'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

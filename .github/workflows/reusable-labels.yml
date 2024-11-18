@@ -1,0 +1,51 @@
+name: Reusable Label Creation
+on:
+  workflow_call:
+    inputs:
+      config-path:
+        required: false
+        type: string
+        default: 'templates/labels.json'
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  create-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Read label configuration
+        id: label-config
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const labels = JSON.parse(fs.readFileSync('${{ inputs.config-path }}', 'utf8'));
+            return labels;
+
+      - name: Create Labels
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const labels = ${{ steps.label-config.outputs.result }};
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+                console.log(`Created label: ${label.name}`);
+              } catch (error) {
+                if (error.status === 422) {
+                  console.log(`Label ${label.name} already exists`);
+                } else {
+                  throw error;
+                }
+              }
+            }
