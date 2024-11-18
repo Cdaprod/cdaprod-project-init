@@ -43,7 +43,7 @@ runs:
         while IFS= read -r label; do
           name=$(echo "$label" | jq -r '.name')
           color=$(echo "$label" | jq -r '.color')
-          description=$(echo "$label" | jq -r '.description')
+          description=$(echo "$label | jq -r '.description')
           
           echo "Creating label: $name"
           curl -X POST \
@@ -59,7 +59,7 @@ runs:
         if [ ! -f "${{ inputs.milestones-config }}" ]; then
           echo "Error: Milestones config file not found at ${{ inputs.milestones-config }}"
           exit 1
-        }
+        fi
         
         echo "Reading milestones from ${{ inputs.milestones-config }}"
         cat "${{ inputs.milestones-config }}"
