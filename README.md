@@ -1,8 +1,21 @@
-# 📦 Cdaprod Project Initialization
+<div align="center">
+<h1>📦 Cdaprod Project Initialization</h1>
 
-[![Self Initialize Using Our Action](https://github.com/Cdaprod/cdaprod-project-init/actions/workflows/self-init.yml/badge.svg)](https://github.com/Cdaprod/cdaprod-project-init/actions/workflows/self-init.yml)
+<a href="https://github.com/Cdaprod/cdaprod-project-init/actions/workflows/self-init.yml">
+  <img src="https://github.com/Cdaprod/cdaprod-project-init/actions/workflows/self-init.yml/badge.svg" alt="Self Initialize Using Our Action">
+</a>
+<a href="https://github.com/Cdaprod/cdaprod-project-init/actions/workflows/test.yml">
+  <img src="https://github.com/Cdaprod/cdaprod-project-init/actions/workflows/test.yml/badge.svg" alt="Test Action">
+</a>
 
-Automate the setup of GitHub repositories with standardized labels and milestones.
+<h2>👋 Hey there! @Cdaprod here.</h2>
+
+<p>I love component-based systems and keeping things organized!</p>
+<p>This action was born from a simple need - I wanted consistent labels and milestones across all my GitHub projects. Using just JSON templates and curl requests, this action makes it super easy to maintain your organization's project structure.</p>
+<p>It's simple by design and easily adaptable to your needs. Fork it, customize it, make it yours! 🚀</p>
+</div>
+
+---
 
 ## Structure
 
@@ -12,6 +25,7 @@ cdaprod-project-init/
 │   └── workflows/
 │       ├── reusable-labels.yml      # Reusable workflow for labels
 │       ├── reusable-milestones.yml  # Reusable workflow for milestones
+│       ├── test.yml                 # Test workflow
 │       └── call-init.yml            # Workflow that calls both
 ├── templates/
 │   ├── labels.json        # Label definitions
