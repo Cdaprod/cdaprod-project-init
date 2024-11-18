@@ -43,7 +43,7 @@ runs:
         while IFS= read -r label; do
           name=$(echo "$label" | jq -r '.name')
           color=$(echo "$label" | jq -r '.color')
-          description=$(echo "$label | jq -r '.description')
+          description=$(echo "$label" | jq -r '.description')  # Fixed the quote here
           
           echo "Creating label: $name"
           curl -X POST \
